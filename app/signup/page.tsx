@@ -1,63 +1,30 @@
-// 📁 app/signup/plan/page.tsx
+// app의 page는 가장 처음 마주하는 페이지로, 사용자에게 보여지는 메인 화면입니다.
+
+// 📁 app/page.tsx
 'use client';
 
-import { useState } from 'react';
-import { COLORS } from '@/lib/constants';
-import Button from '@/components/Button';
+import { useRouter } from 'next/navigation'; // 클라이언트 사이드 라우팅을 위해 useRouter 사용
 
-const plans = [
-  {
-    id: 'basic',
-    name: '베이직',
-    price: '₩7,900',
-    features: ['720p HD 화질', '동시 시청 1명', '모바일 + PC'],
-  },
-  {
-    id: 'standard',
-    name: '스탠다드',
-    price: '₩10,900',
-    features: ['1080p FHD 화질', '동시 시청 2명', '모든 디바이스'],
-  },
-  {
-    id: 'premium',
-    name: '프리미엄',
-    price: '₩13,900',
-    features: ['1080p FHD + 4K 화질', '동시 시청 4명', '모든 디바이스'],
-  },
-];
+export default function LandingPage() {
+  const router = useRouter();   // useRouter 훅을 사용하여 라우터 인스턴스를 가져옵니다.
 
-export default function SignupPlanPage() {
-  const [selected, setSelected] = useState<string>('');
+  const handleStart = () => {
+    router.push('/intro'); // 사용자가 "사용해보기" 버튼을 클릭하면 '/intro' 페이지로 이동합니다.
+  };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6">
-      <h1 className="text-2xl font-bold mb-6">구독제 선택</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
-        {plans.map((plan) => (
-          <div
-            key={plan.id}
-            onClick={() => setSelected(plan.id)}
-            className={`cursor-pointer border rounded-xl p-6 shadow transition-colors duration-200
-              ${selected === plan.id ? `border-[${COLORS.ACCENT}] bg-[${COLORS.ACCENT}]` : 'border-gray-300 bg-white'}
-              hover:border-[${COLORS.ACCENT}] hover:bg-[${COLORS.ACCENT}]`}
-          >
-            <h2 className="text-xl font-semibold mb-2">{plan.name}</h2>
-            <p className="text-lg font-medium mb-4">{plan.price} / 월</p>
-            <ul className="text-sm text-gray-700 space-y-1">
-              {plan.features.map((feature, idx) => (
-                <li key={idx}>• {feature}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+    <main className="min-h-screen flex flex-col justify-between items-center py-16 px-6">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-4">ADsheeran에 오신 것을 환영합니다!</h1>
+        <p className="text-gray-600">나만의 AI 도우미와 함께 시작해보세요</p>
       </div>
 
-      {selected && (
-        <div className="mt-8">
-          <Button onClick={() => alert(`선택한 구독제: ${selected}`)}>다음 단계로 이동</Button>
-        </div>
-      )}
+      <button
+        className="bg-[#6C00C4] text-white px-6 py-3 rounded-xl shadow hover:bg-[#5a00a7] transition"
+        onClick={handleStart} // 버튼 클릭 시 handleStart 함수 호출
+      >
+        사용해보기
+      </button>
     </main>
   );
 }
